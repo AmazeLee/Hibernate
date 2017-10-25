@@ -12,7 +12,7 @@ import com.sh.domain.Customer;
 /**
  * 测试Hibernate框架
  * @author Administrator
- *
+ *这是一个测试
  */
 public class Demo {
 	//保存客户

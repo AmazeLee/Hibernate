@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!-- 配置表与实体对象的关系 -->
+<!-- package属性：填写一个包名，在元素内部凡事需要填写完整类名的属性可以直接写简写类名 -->
+<hibernate-mapping package="com.sh.domain">
+	<!-- class元素: 配置实体与表的对应关系的 
+		name: 完整类名 
+		table:数据库表名 
+		schema:数据库名称
+	-->
+	
+	<class name="com.sh.domain.Role" table="sys_role" schema="hibernate_01">
+		<id name="role_id"  >
+			<generator class="native"></generator>
+		</id>
+		
+		<property name="role_name" column="role_name" ></property>
+		<property name="role_memo" column="role_memo" ></property>
+		
+		<!-- 多对多关系表达 -->
+		<set name="users" table="sys_user_role" inverse="true">
+			<key column="role_id"></key>
+			<many-to-many class="User" column="user_id"></many-to-many>
+		</set>
+	</class>
+</hibernate-mapping>

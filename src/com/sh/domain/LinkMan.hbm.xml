@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<!-- 配置表与实体对象的关系 -->
+<!-- package属性：填写一个包名，在元素内部凡事需要填写完整类名的属性可以直接写简写类名 -->
+<hibernate-mapping package="com.sh.domain">
+	<!-- class元素: 配置实体与表的对应关系的 
+		name: 完整类名 
+		table:数据库表名 
+		schema:数据库名称
+	-->
+	
+	<class name="com.sh.domain.LinkMan" table="cst_linkman" schema="hibernate_01">
+		<!-- id元素:配置主键映射的属性
+			name: 填写主键对应属性名
+			column(可选): 填写表中的主键列名.默认值:列名会默认使用属性名
+			type(可选):填写列(属性)的类型.hibernate会自动检测实体的属性类型.
+					每个类型有三种填法: java类型|hibernate类型|数据库类型
+			not-null(可选):配置该属性(列)是否不能为空. 默认值:false
+			length(可选):配置数据库中列的长度. 默认值:使用数据库类型的最大长度
+		 -->
+		<id name="lkm_id"  >
+			<!-- generator 主键生成策略
+        	   1.increment 由hibernate自己维护自动增长
+					底层通过先查询max值，再+1策略
+					不建议使用，存在线程并发问题
+			   2.identity hibernate底层采用数据库本身自动增长列（mysql）
+					例如：mysql auto_increment
+			   3.sequence hibernate底层采用数据库序列   ()
+					例如：oracle 提供序列
+			   4.hilo（了解）   底层算法生成的主键，开发时不使用
+								
+			   5.native 根据底层数据库的能力选择 identity、sequence 或者 hilo 中的一个。
+							##以上策略使用整型，long, short 或者 int 类型
+			   6.uuid 采用字符串唯一值 主键类型必须为String类型
+							##以上策略 代理主键，有hibernate维护。
+			   7.assigned 自然主键，由程序员自己维护。 
+        	-->
+			<generator class="native"></generator>
+		</id>
+		<!-- property元素:除id之外的普通字段属性映射
+				name: 填写属性名
+				column(可选): 填写列名
+				type(可选):填写列(属性)的类型.hibernate会自动检测实体的属性类型.
+						每个类型有三种填法: java类型|hibernate类型|数据库类型
+				not-null(可选):配置该属性(列)是否不能为空. 默认值:false
+				length(可选):配置数据库中列的长度. 默认值:使用数据库类型的最大长度
+		 -->
+		<property name="lkm_gender"></property>
+		<property name="lkm_name"></property>
+		<property name="lkm_phone"></property>
+		<property name="lkm_email"></property>
+		<property name="lkm_qq"></property>
+		<property name="lkm_mobile"></property>
+		<property name="lkm_memo"></property>
+		<property name="lkm_position"></property>
+		
+		<!-- 多对一 -->
+		<!-- 
+			name属性：集合属性名
+			column属性：外键列名
+			class属性：与我关联的对象完整类名
+		 -->
+		<!-- 
+			fetch 决定加载的sql语句
+				select 使用单表查询
+				join 多表查询
+			lazy 决定加载时机
+				false 立即加载
+				proxy 由customer的类级别加载策略决定
+			
+		 -->
+		<many-to-one name="customer" column="lkm_cust_id" class="Customer"></many-to-one>
+	</class>
+</hibernate-mapping>
